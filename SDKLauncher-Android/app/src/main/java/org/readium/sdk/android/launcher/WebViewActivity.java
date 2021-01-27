@@ -76,6 +76,7 @@ import android.webkit.JavascriptInterface;
 import android.webkit.ValueCallback;
 import android.webkit.WebChromeClient;
 import android.webkit.WebResourceResponse;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.EditText;
@@ -322,6 +323,10 @@ public class WebViewActivity extends FragmentActivity implements
 		mWebview.setWebChromeClient(new EpubWebChromeClient());
 
 		mWebview.addJavascriptInterface(new EpubInterface(), "LauncherUI");
+
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+			mWebview.getSettings().setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
+		}
 	}
 
 	public boolean onMenuItemSelected(int featureId, MenuItem item) {

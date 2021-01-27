@@ -114,7 +114,6 @@ public class ContainerList extends FragmentActivity
         }
 
         final List<String> list = getInnerBooks(epubpath);
-
         BookListAdapter bookListAdapter = new BookListAdapter(this, list);
         view.setAdapter(bookListAdapter);
 

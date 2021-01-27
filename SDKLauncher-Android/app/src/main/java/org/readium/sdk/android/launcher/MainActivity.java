@@ -23,14 +23,17 @@
 
 package org.readium.sdk.android.launcher;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.app.Activity;
 import android.content.Intent;
-import android.widget.Toast;
+import android.support.v4.content.ContextCompat;
 
 import com.nononsenseapps.filepicker.FilePickerActivity;
 
@@ -40,6 +43,7 @@ public class MainActivity extends Activity {
 
     private static final int STOPSPLASH = 0;
     private static final long SPLASHTIME = 500;
+    private static final int PERMISSIONs_REQUEST_CODE = 11;
     private final String testPath = "epubtest";
 
     //@TargetApi(Build.VERSION_CODES.JELLY_BEAN)
@@ -119,9 +123,41 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_main);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (ContextCompat.checkSelfPermission(
+                    getApplicationContext(), Manifest.permission.READ_EXTERNAL_STORAGE) ==
+                    PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(
+                    getApplicationContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) ==
+                    PackageManager.PERMISSION_GRANTED) {
+                sendSplashMessage();
+            } else {
+                requestPermissions(new String[] { Manifest.permission.READ_EXTERNAL_STORAGE,
+                                           Manifest.permission.WRITE_EXTERNAL_STORAGE }, PERMISSIONs_REQUEST_CODE);
+            }
+        } else {
+            sendSplashMessage();
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                                           int[] grantResults) {
+        switch (requestCode) {
+            case PERMISSIONs_REQUEST_CODE:
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0 &&
+                        grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    sendSplashMessage();
+                }
+                return;
+        }
+    }
+
+    private void sendSplashMessage()
+    {
         Message msg = new Message();
         msg.what = STOPSPLASH;
         splashHandler.sendMessageDelayed(msg, SPLASHTIME);
     }
-
 }

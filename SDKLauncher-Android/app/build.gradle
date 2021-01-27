@@ -14,6 +14,7 @@ if (ndk_experimental) {
 }
 
 repositories {
+    google()
     mavenCentral()
     jcenter()
     flatDir {
@@ -22,11 +23,12 @@ repositories {
 }
 
 dependencies {
-    compile 'com.nononsenseapps:filepicker:3.0.0'
-    compile 'com.android.support:support-v4:23.+'
-    compile 'com.koushikdutta.ion:ion:2.+'
+    implementation 'com.nononsenseapps:filepicker:3.0.0'
+    implementation 'com.android.support:support-v4:28.0.0'
+    implementation 'com.android.support:design:28.0.0'
+    implementation 'com.koushikdutta.ion:ion:2.2.1'
     // compile 'com.koushikdutta.async:androidasync:2.+' ALREADY INCLUDED AS DEPENDENCY OF com.koushikdutta.ion
-    compile 'commons-io:commons-io:2.4'
+    implementation 'commons-io:commons-io:2.6'
 }
 
 task buildCssAssets(type: Copy) {

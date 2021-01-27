@@ -32,8 +32,8 @@ model {
     }
 
     android {
-        compileSdkVersion = 26
-        buildToolsVersion = "27.0.3"
+        compileSdkVersion = 30
+        buildToolsVersion = "30.0.3"
 
         defaultConfig {
 
@@ -41,10 +41,10 @@ model {
             applicationId = "org.readium.sdk.android.launcher"
 
             // manifest/uses-sdk@android:minSdkVersion attribute in src/main/AndroidManifest.xml
-            minSdkVersion.apiLevel = 19
+            minSdkVersion.apiLevel = 17
 
             // manifest/uses-sdk@android:targetSdkVersion attribute in src/main/AndroidManifest.xml
-            targetSdkVersion.apiLevel = 26
+            targetSdkVersion.apiLevel = 30
 
             // manifest@android:versionCode attribute in src/main/AndroidManifest.xml
             versionCode 30
@@ -85,20 +85,21 @@ model {
                 signingConfig = $("android.signingConfigs.mySigningConfig")
             }
         } //buildTypes
+        flavorDimensions "eabi"
 
         productFlavors {
-            if (!ndk_skipARM)
                 create("arm") {
                     ndk.with {
                         abiFilters.add("armeabi-v7a")
                     }
+                    dimension "eabi"
                 }
 
-            if (!ndk_skipX86)
                 create("x86") {
                     ndk.with {
                         abiFilters.add("x86")
                     }
+                    dimension "eabi"
                 }
         } //productFlavors
     } //android

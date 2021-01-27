@@ -9,8 +9,8 @@ def key_password =  (rootProject.hasProperty("readium_sign_key_password") ? root
 def store_password =  (rootProject.hasProperty("readium_sign_store_password") ? rootProject.readium_sign_store_password : "nope")
 
 android {
-    compileSdkVersion = 26
-    buildToolsVersion = "27.0.3"
+    compileSdkVersion = 30
+    buildToolsVersion = "30.0.3"
 
     lintOptions {
         checkReleaseBuilds = false
@@ -35,10 +35,10 @@ android {
         applicationId = "org.readium.sdk.android.launcher"
 
         // manifest/uses-sdk@android:minSdkVersion attribute in src/main/AndroidManifest.xml
-        minSdkVersion 19
+        minSdkVersion 17
 
         // manifest/uses-sdk@android:targetSdkVersion attribute in src/main/AndroidManifest.xml
-        targetSdkVersion 26
+        targetSdkVersion 30
 
         // manifest@android:versionCode attribute in src/main/AndroidManifest.xml
         versionCode 30
@@ -82,19 +82,21 @@ android {
         }
     } //buildTypes
 
+    flavorDimensions "eabi"
+
     productFlavors {
-        if (!ndk_skipARM)
             "arm" {
                 ndk.with {
                     abiFilters = ["armeabi-v7a"]
                 }
+                dimension "eabi"
             }
 
-        if (!ndk_skipX86)
             "x86" {
                 ndk.with {
                     abiFilters = ["x86"]
                 }
+                dimension "eabi"
             }
     } //productFlavors
 } //android
